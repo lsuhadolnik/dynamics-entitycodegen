@@ -1,0 +1,99 @@
+/* General body styling */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    width: 260px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    color: #d3d3d3;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+
+    border: 0 transparent;
+  }
+
+  .topSection {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+    color: #d3d3d3;
+    margin: 0 0 20px;
+    font-weight: 500;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .btn {
+    background-color: #f0f3f5;
+    color: #231f32;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: none;
+    outline: none;
+    border-radius: 10px;
+    flex: 1;
+  }
+
+  .btn:hover {
+    background-color: #e0e0e0;
+  }
+
+  .btn:active {
+    background-color: #c0c0c0;
+  }
+
+  .thumb {
+    display: flex;
+    width: 60px;
+    height: 60px;
+    background: #ffdac9;
+    border-radius: 100px;
+    vertical-align: middle;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .likeImg {
+    font-size: 29px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-weight: bold;
+  }
+
+  .formatTitle {
+    width: 100%;
+    color: #b1b1b1;
+    font-weight: normal;
+  }
+
+  .topSubtitle {
+    width: 100%;
+    color: #8e9ba4;
+    font-size: 15px;
+    padding-top: 15px;
+    line-height: 0;
+  }
+
+  .topTitle {
+    width: 100%;
+    color: #231f32;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 11px;
+  }
