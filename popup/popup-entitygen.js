@@ -61,7 +61,7 @@ function generateCode() {
                     break;
                 case "optionset":
                     // Handle OptionSet (Choice) values
-                    formattedValue = fieldValue;
+                    formattedValue = `new OptionSetValue(${fieldValue})`;
                     const optionSetText = attribute.text;
                     comment = ` // ${optionSetText}`;
                     break;
