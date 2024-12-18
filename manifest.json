@@ -1,12 +1,12 @@
 {
     "manifest_version": 3,
-    "name": "Dynamics CRM Entity Getter",
+    "name": "Dynamics CRM Entity Generator",
     "version": "1.0",
     "permissions": ["scripting", "tabs", "clipboardWrite"],
     "host_permissions": ["*://*.dynamics.com/*"],
     "action": {
         "default_popup": "/popup/popup.html",
-        "default_icon": "icon.png"
+        "default_icon": "icons/128.png"
     },
     "content_scripts": [
         {
@@ -19,5 +19,11 @@
             "resources": ["/worker.js"],
             "matches": ["<all_urls>"]
         }
-    ]
+    ],
+    "icons": {
+        "16": "icons/16.png",
+        "48": "icons/48.png",
+        "128": "icons/128.png"
+    },
+    "description": "A simple Chrome/Edge plugin which generates Entity code for Unit Tests"
 }

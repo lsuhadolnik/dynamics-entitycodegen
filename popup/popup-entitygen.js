@@ -45,7 +45,7 @@ function generateCode() {
             // Handle different field types
             switch (attributeType) {
                 case "string":
-                    formattedValue = `"${fieldValue.replace(/"/g, '\\"')}"`; // Escape quotes in strings
+                    formattedValue = `@"${fieldValue.replace(/"/g, '\\"')}"`; // Escape quotes in strings
                     break;
                 case "boolean":
                     formattedValue = fieldValue ? "true" : "false";
@@ -71,7 +71,7 @@ function generateCode() {
                     ).toISOString()}")`;
                     break;
                 case "memo":
-                    formattedValue = `"${fieldValue.replace(/"/g, '\\"')}"`;
+                    formattedValue = `@"${fieldValue.replace(/"/g, '\\"')}"`;
                     break;
                 default:
                     formattedValue = `"${fieldValue}"`;

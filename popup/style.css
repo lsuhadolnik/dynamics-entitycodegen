@@ -109,12 +109,20 @@ body {
 
   .codeWrapper {
     line-height: 23px;
-    background: #373737;
+    background: #0d1117;
     overflow: scroll;
     max-height: 300px;
     max-width: 400px;
     color: white;
     font-size: 14px;
+  }
+
+  .codeWrapper pre {
+    margin: 0;
+  }
+
+  .codeWrapper code {
+    overflow: visible;
   }
 
   #codeOutput {

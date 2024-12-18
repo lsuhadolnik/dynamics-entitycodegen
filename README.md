@@ -17,6 +17,12 @@ A simple Chrome/Edge plugin which allows you to easily generate Unit Test data.
 
 When on Dynamics Form, click on the plugin icon. The generated C# code will show, allowing you to copy it with a click of a button.
 
+## TODO
+
+-   Test all field types - what fields are there? (TODO)
+-   Reliability - when opened on another site / not on form
+-   Reliability - when on form, but not connected to worker
+
 ## Planned actions
 
 -   Generate an entity when opened
