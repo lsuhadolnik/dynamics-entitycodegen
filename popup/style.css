@@ -132,3 +132,47 @@ body {
   #codeOutput {
     padding: 14px;
   }
+
+  .thumb {
+    opacity: 0;
+    transform: translateX(-100px); /* Start offscreen to the left */
+    animation: slideInLeft 0.4s ease-out forwards; /* 0.8s animation duration */
+}
+
+.titles h3 {
+    opacity: 0;
+    transform: translateY(-30px); /* Start above the position */
+    animation: slideInTop 0.2s ease-out forwards;
+}
+
+/* Animation delays for staggering */
+.topSubtitle {
+    animation-delay: 0.1s; /* Start slightly later */
+}
+
+.topTitle {
+    animation-delay: 0.3s; /* Start after the subtitle */
+}
+
+/* Keyframes for sliding and fading */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInTop {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
