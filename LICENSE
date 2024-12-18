@@ -19,10 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-## Open Source licenses
-
-This plugin uses other open-source 3rd party libraries, which are licensed under the following terms:
-
--   [highlight.js](https://github.com/highlightjs/highlight.js) - Copyright (c) 2006, Ivan Sagalaev - BSD 3-Clause License
