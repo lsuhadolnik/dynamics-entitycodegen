@@ -58,6 +58,9 @@ function generateCode() {
                 case "lookup":
                     // Handle lookup values
                     formattedValue = `new EntityReference("${fieldValue[0].entityType}", Guid.Parse("${fieldValue[0].id}"))`;
+                    if (fieldValue[0].name) {
+                        comment = ` // ${fieldValue[0].name}`;
+                    }
                     break;
                 case "optionset":
                     // Handle OptionSet (Choice) values
