@@ -3,6 +3,8 @@ const entityGenState = {
     entityName: null,
     entityId: null,
 
+    generatedCode: null,
+
     format: "cs",
     onlyNonNull: false,
     hasAllFields: false,
@@ -11,7 +13,11 @@ const entityGenState = {
 
 function render() {
     const code = generateCode();
+
+    entityGenState.generatedCode = code;
+
     setCodeOutput(code);
+    setTitle();
 }
 
 function generateCode() {
@@ -24,7 +30,9 @@ function generateCode() {
 
     // Loop over attributes on the form
     const attributes = entityGenState.attributes;
-    for (const attribute of attributes) {
+    for (let index = 0; index < attributes.length; index++) {
+        const attribute = attributes[index];
+
         const fieldName = attribute.name;
         const fieldValue = attribute.value;
         const attributeType = attribute.type;
@@ -90,4 +98,14 @@ function generateCode() {
 
 function setCodeOutput(code) {
     document.getElementById("codeOutput").innerHTML = code;
+
+    hljs.highlightAll();
+}
+
+function setTitle() {
+    if (entityGenState.entityName) {
+        const title = capitalizeFirstLetter(entityGenState.entityName);
+
+        document.getElementById("entityName").innerHTML = title;
+    }
 }

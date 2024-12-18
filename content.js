@@ -9,16 +9,19 @@ function injectWorker() {
 
 // Response forwarder
 window.addEventListener("message", (event) => {
+    console.log("[content] Receiving to Forward", event);
     if (event.data && event.data.EntityGeneratorResponse) {
+        console.log("[content] Forwarding", event);
         chrome.runtime.sendMessage(event.data);
     }
 });
 
-
 // Request forwarder
 chrome.runtime.onMessage.addListener((message, sender) => {
+    console.log("[content] Receiving to Return", message);
     if (message.EntityGeneratorRequest) {
-        window.postMessage({ EntityGeneratorRequest: true }, "*");
+        console.log("[content] Returning", message);
+        window.postMessage(message, "*");
     }
 });
 
