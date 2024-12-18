@@ -1,7 +1,26 @@
-## Supported actions
+# Dynamics EntityGen
+
+A simple Chrome/Edge plugin which allows you to easily generate Unit Test data.
+
+![Screenshot of the pluigin](screenshot.png)
+
+## Installation
+
+-   Clone repo locally
+-   Go to `chrome://extensions`
+-   Enable **Developer mode**
+-   Click **Load Unpacked**
+-   Find the cloned folder
+-   Pin the extension to the toolbar
+
+## Usage
+
+When on Dynamics Form, click on the plugin icon. The generated C# code will show, allowing you to copy it with a click of a button.
+
+## Planned actions
 
 -   Generate an entity when opened
-    -   All field types work - what fields are there?
+    -   All field types work - what fields are there? (TODO)
 -   Change format to JSON
 -   Only add non-null fields
 -   Add all fields

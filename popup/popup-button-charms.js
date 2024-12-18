@@ -10,5 +10,5 @@ function signalStatus(buttonId, status) {
 
     setTimeout(() => {
         btn.innerHTML = prevContent;
-    }, 2000);
+    }, 1000);
 }

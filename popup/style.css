@@ -11,6 +11,7 @@ body {
     text-align: left;
 
     border: 0 transparent;
+    width: 400px;
   }
 
   .topSection {
@@ -49,6 +50,7 @@ body {
     flex: 1;
 
     margin: 10px;
+    height: 42px;
   }
 
   .btn:hover {
@@ -90,18 +92,19 @@ body {
 
   .topSubtitle {
     width: 100%;
-    color: #8e9ba4;
+    color: #767676;;
     font-size: 15px;
-    padding-top: 15px;
-    line-height: 0;
+    margin-block-end: 0;
   }
 
   .topTitle {
-    width: 100%;
-    color: #231f32;
-    font-weight: bold;
+    color: #2e2e2e;
+    font-weight: 500;
     font-size: 26px;
-    line-height: 11px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 262px;
+    height: 37px;
   }
 
   .codeWrapper {
@@ -109,7 +112,7 @@ body {
     background: #373737;
     overflow: scroll;
     max-height: 300px;
-    max-width: 260px;
+    max-width: 400px;
     color: white;
     font-size: 14px;
   }
