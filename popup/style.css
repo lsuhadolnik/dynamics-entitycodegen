@@ -117,6 +117,10 @@ body {
     font-size: 14px;
   }
 
+  .codeWrapper pre code.hljs {
+    overflow-x: inherit;
+  }
+
   .codeWrapper pre {
     margin: 0;
   }
