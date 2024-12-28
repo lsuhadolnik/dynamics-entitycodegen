@@ -22,7 +22,7 @@ function enableButtons() {
 }
 
 function newDataAvailable(response) {
-    console.log("New Data Available", response);
+    logPopup("New Data Available", response);
     if (response.type === "GetBasicAttributes") {
         const { entityName, entityId, attributes, params } = response;
 

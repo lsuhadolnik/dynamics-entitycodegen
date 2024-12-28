@@ -1,11 +1,11 @@
 // alert("Hey! Hello from WORKER");
 
 window.addEventListener("message", (event) => {
-    console.log("[worker] Receiving", event);
+    // console.log("[worker] Receiving", event);
     if (event.data && event.data.EntityGeneratorRequest) {
         const requestType = event.data.type;
 
-        console.log("[worker] Processing", requestType);
+        // console.log("[worker] Processing", requestType);
 
         const response = {
             EntityGeneratorResponse: true,
@@ -101,6 +101,10 @@ function processAttributeValue(attr) {
             timestamp: parsedUrl.searchParams.get("Timestamp"),
         };
     } else if (type == "multiselectoptionset") {
+        if (!value) {
+            return [];
+        }
+
         const texts = attr.getText();
         return value.map((v, i) => ({
             value: v,

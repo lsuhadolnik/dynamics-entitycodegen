@@ -108,6 +108,9 @@ function generateCode(escape) {
                     });
                     break;
                 case "multiselectoptionset":
+                    if (!attribute.value || attribute.value.length == 0) {
+                        break;
+                    }
                     lines.push({
                         fieldName: attribute.name,
                         formattedValue: `new OptionSetValueCollection(

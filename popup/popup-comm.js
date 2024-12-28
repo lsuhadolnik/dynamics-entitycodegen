@@ -12,16 +12,16 @@ async function workerRequest(requestType) {
         EntityGeneratorRequest: true,
         type: requestType,
     };
-    console.log("[popup-comm] Sending", msg);
+    logPopup("[popup-comm] Sending", msg);
 
     chrome.tabs.sendMessage(tab.id, msg);
 }
 
 // Worker Responses
 chrome.runtime.onMessage.addListener((response) => {
-    console.log("[popup-comm] Receiving", response);
+    logPopup("[popup-comm] Receiving", response);
     if (response.EntityGeneratorResponse) {
-        console.log("[popup-comm] Calling NewDataAvailable", response);
+        logPopup("[popup-comm] Calling NewDataAvailable", response);
         newDataAvailable(response);
     }
 });
