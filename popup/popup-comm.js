@@ -17,6 +17,7 @@ async function workerRequest(requestType) {
     chrome.tabs.sendMessage(tab.id, msg);
 }
 
+console.log("Setting up listener? :(");
 // Worker Responses
 chrome.runtime.onMessage.addListener((response) => {
     console.log("[popup-comm] Receiving", response);

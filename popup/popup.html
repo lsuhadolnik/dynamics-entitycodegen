@@ -7,32 +7,52 @@
         <link rel="stylesheet" href="highlight/github-dark.min.css" />
     </head>
     <body>
-        <!--<button id="getEntity">Get Entity Logical Name</button>
+        <button class="btn" id="copyCode">Restart</button>
+
+        <div id="mainPage">
+            <!--<button id="getEntity">Get Entity Logical Name</button>
         <p id="output"></p> -->
 
-        <div class="topSection">
-            <div class="thumb">
-                <img src="icon-p.png" width="60" />
+            <div class="topSection">
+                <div class="thumb">
+                    <img src="icon-p.png" width="60" />
+                </div>
+                <div class="titles">
+                    <h3 class="topSubtitle">Entity Generator</h3>
+                    <h3 class="topTitle"><span id="entityName"></span></h3>
+                </div>
             </div>
-            <div class="titles">
-                <h3 class="topSubtitle">Entity Generator</h3>
-                <h3 class="topTitle"><span id="entityName"></span></h3>
+
+            <div class="buttons">
+                <button class="btn" id="copyCode">Copy</button>
+                <!--<button class="btn" id="generateJson">JSON</button>-->
+            </div>
+
+            <div class="codeWrapper">
+                <pre><code id="codeOutput"></code></pre>
             </div>
         </div>
 
-        <div class="buttons">
-            <button class="btn" id="copyCode">Copy</button>
-            <!--<button class="btn" id="generateJson">JSON</button>-->
-        </div>
+        <div id="welcomePage">
+            <div class="topSection">
+                <div class="thumb">
+                    <img src="icon-p.png" width="60" />
+                </div>
+                <div class="titles">
+                    <h3 class="topSubtitle">Entity Generator</h3>
+                    <h3 class="topTitle">Welcome 👋</h3>
+                </div>
+            </div>
+            <div class="welcomeText">
+                <p>Open a record in Dynamics to generate the Entity code</p>
 
-        <div class="codeWrapper">
-            <pre><code id="codeOutput"></code></pre>
+                <p>If you're already on a record, try to refresh the page.</p>
+            </div>
         </div>
 
         <!--<h4 class="formatTitle">Choose the format to copy</h4>-->
 
         <script src="highlight/highlight.min.js"></script>
-        <script src="highlight/csharp.min.js"></script>
 
         <script src="popup-button-charms.js"></script>
         <script src="popup-render-helpers.js"></script>

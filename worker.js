@@ -13,6 +13,9 @@ window.addEventListener("message", (event) => {
         };
 
         if (requestType == "GetBasicAttributes") {
+            response.params = document.location.search;
+            response.url = document.location.href;
+
             try {
                 response.entityName = Xrm.Page.data.entity.getEntityName();
                 response.entityId = Xrm.Page.data.entity.getId();
@@ -37,6 +40,11 @@ window.addEventListener("message", (event) => {
             } catch (e) {
                 console.log("[worker] Exception :(", e);
             }
+        }
+
+        if (requestType == "GetPageURL") {
+            response.params = document.location.search;
+            response.url = document.location.href;
         }
 
         console.log("[worker] Posting", response);

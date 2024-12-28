@@ -1,7 +1,6 @@
 (() => {
+    // Is this even Dynamics?
     workerRequest("GetBasicAttributes");
-
-    enableButtons();
 })();
 
 function enableButtons() {
@@ -23,16 +22,26 @@ function enableButtons() {
 }
 
 function newDataAvailable(response) {
-    debugger;
-    console.log("Hello! New data available");
+    console.log("New Data Available", response);
     if (response.type === "GetBasicAttributes") {
-        const { entityName, entityId, attributes } = response;
+        const { entityName, entityId, attributes, params } = response;
+
+        debugger;
+        if (!isValidPage(params)) {
+            return;
+        }
 
         entityGenState.entityName = entityName;
         entityGenState.entityId = entityId;
         entityGenState.attributes = attributes;
 
-        debugger;
         render();
+
+        enableButtons();
+        hideWelcome();
     }
+
+    /*if (response.type == "GetPageURL") {
+        
+    }*/
 }

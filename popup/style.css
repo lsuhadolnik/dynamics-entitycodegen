@@ -1,3 +1,13 @@
+#mainPage {
+    display: none;
+}
+
+.welcomeText {
+    padding: 0 11px 0 44px;
+    font-weight: 600;
+    color: #686565;
+}
+
 /* General body styling */
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -12,30 +22,29 @@ body {
 
     border: 0 transparent;
     width: 400px;
-  }
+}
 
-  .topSection {
+.topSection {
     width: 100%;
     display: flex;
     gap: 20px;
     padding: 20px 20px 0 20px;
+}
 
-  }
-
-  h3 {
+h3 {
     font-size: 16px;
     color: #d3d3d3;
     margin: 0 0 20px;
     font-weight: 500;
-  }
+}
 
-  .buttons {
+.buttons {
     display: flex;
     gap: 12px;
     width: 100%;
-  }
+}
 
-  .btn {
+.btn {
     background-color: #f0f3f5;
     color: #231f32;
     border: none;
@@ -51,18 +60,17 @@ body {
 
     margin: 10px;
     height: 42px;
-  }
+}
 
-  .btn:hover {
+.btn:hover {
     background-color: #e0e0e0;
-  }
+}
 
-  .btn:active {
+.btn:active {
     background-color: #c0c0c0;
-  }
+}
 
-  .thumb {
-
+.thumb {
     margin-left: 28px;
 
     display: flex;
@@ -74,30 +82,30 @@ body {
     align-items: center;
     text-align: center;
     justify-content: center;
-  }
+}
 
-  .likeImg {
+.likeImg {
     font-size: 29px;
     text-align: center;
     vertical-align: middle;
     color: white;
     font-weight: bold;
-  }
+}
 
-  .formatTitle {
+.formatTitle {
     width: 100%;
     color: #b1b1b1;
     font-weight: normal;
-  }
+}
 
-  .topSubtitle {
+.topSubtitle {
     width: 100%;
-    color: #767676;;
+    color: #767676;
     font-size: 15px;
     margin-block-end: 0;
-  }
+}
 
-  .topTitle {
+.topTitle {
     color: #2e2e2e;
     font-weight: 500;
     font-size: 26px;
@@ -105,9 +113,9 @@ body {
     overflow: hidden;
     max-width: 262px;
     height: 37px;
-  }
+}
 
-  .codeWrapper {
+.codeWrapper {
     line-height: 23px;
     background: #0d1117;
     overflow: scroll;
@@ -115,25 +123,25 @@ body {
     max-width: 400px;
     color: white;
     font-size: 14px;
-  }
+}
 
-  .codeWrapper pre code.hljs {
+.codeWrapper pre code.hljs {
     overflow-x: inherit;
-  }
+}
 
-  .codeWrapper pre {
+.codeWrapper pre {
     margin: 0;
-  }
+}
 
-  .codeWrapper code {
+.codeWrapper code {
     overflow: visible;
-  }
+}
 
-  #codeOutput {
+#codeOutput {
     padding: 14px;
-  }
+}
 
-  .thumb {
+.thumb {
     opacity: 0;
     transform: translateX(-100px); /* Start offscreen to the left */
     animation: slideInLeft 0.4s ease-out forwards; /* 0.8s animation duration */
