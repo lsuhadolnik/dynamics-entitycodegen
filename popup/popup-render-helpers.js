@@ -27,6 +27,18 @@ function escapeDoubleQuotes(str) {
     return str.replace(/"/g, '""');
 }
 
+function escapeQuoteBackslash(str) {
+    if (typeof str !== "string") {
+        return str;
+    }
+
+    return str.replace(/"/g, '\\"').replace(/\n/g, "\\n");
+}
+
+function removeCurlyBraces(guid) {
+    return guid.replace("{", "").replace("}", "");
+}
+
 function isValidPage(urlParams) {
     let params = new URLSearchParams(urlParams);
     return params.get("pagetype") == "entityrecord" && params.get("id");

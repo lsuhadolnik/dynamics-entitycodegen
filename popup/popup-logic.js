@@ -19,6 +19,20 @@ function enableButtons() {
         },
         false
     );
+
+    document.querySelectorAll(".setFormatBtn").forEach((btn) => {
+        btn.addEventListener(
+            "click",
+            ({ target }) => {
+                const format = target.attributes["data-format"].value;
+
+                alert("Setting " + format);
+                entityGenState.format = format;
+                render();
+            },
+            false
+        );
+    });
 }
 
 function newDataAvailable(response) {

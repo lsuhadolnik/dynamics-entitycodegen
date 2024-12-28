@@ -22,8 +22,14 @@
             </div>
 
             <div class="buttons">
+                <button class="btn setFormatBtn" data-format="cs">C#</button>
+                <button class="btn setFormatBtn" data-format="odatajson">
+                    JSON (OData)
+                </button>
+            </div>
+
+            <div class="buttons">
                 <button class="btn" id="copyCode">Copy</button>
-                <!--<button class="btn" id="generateJson">JSON</button>-->
             </div>
 
             <div class="codeWrapper">
@@ -53,6 +59,8 @@
         <script src="highlight/highlight.min.js"></script>
 
         <script src="popup-logging.js"></script>
+        <script src="popup-entitygen-odatajson.js"></script>
+        <script src="popup-entitygen-cs.js"></script>
         <script src="popup-button-charms.js"></script>
         <script src="popup-render-helpers.js"></script>
         <script src="popup-comm.js"></script>

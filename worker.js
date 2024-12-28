@@ -46,10 +46,25 @@ window.addEventListener("message", (event) => {
             response.url = document.location.href;
         }
 
+        if (requestType == "GetMetadata") {
+            // TODO
+        }
+
+        if (requestType == "GetAllFields") {
+            // TODO
+        }
+
         console.log("[worker] Posting", response);
         window.postMessage(response, "*");
     }
 });
+
+async function getMetadataAndPost() {
+    const baseUrl = window.location.host;
+    const url = `https://${baseUrl}/api/data/v9.2/$metadata`;
+
+    // const response = await
+}
 
 function processAttributeValue(attr) {
     const value = attr.getValue();

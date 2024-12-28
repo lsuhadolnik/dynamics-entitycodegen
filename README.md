@@ -19,6 +19,7 @@ When on Dynamics Form, click on the plugin icon. The generated C# code will show
 
 ## TODO
 
+-   [ ] Test and fix Partylist type
 -   [ ] Change format to JSON - so that it works with OData too.
 -   [x] Test all field types - what fields are there? (TODO)
 -   [x] Reliability - when opened on another site / not on form
