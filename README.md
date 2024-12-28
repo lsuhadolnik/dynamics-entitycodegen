@@ -19,20 +19,22 @@ When on Dynamics Form, click on the plugin icon. The generated C# code will show
 
 ## TODO
 
--   Test all field types - what fields are there? (TODO)
--   Reliability - when opened on another site / not on form
--   Reliability - when on form, but not connected to worker
+-   [ ] Change format to JSON - so that it works with OData too.
+-   [x] Test all field types - what fields are there? (TODO)
+-   [x] Reliability - when opened on another site / not on form
+-   [x] Reliability - when on form, but not connected to worker
 
 ## Planned actions
 
--   Generate an entity when opened
-    -   All field types work - what fields are there? (TODO)
--   Change format to JSON
--   Only add non-null fields
--   Add all fields
--   Add only fields on the current form
+-   [x] Generate an entity when opened
+    -   [x] All field types work - what fields are there? (TODO)
+-   Change format to JSON - so that it works with OData too.
+-   Add null fields if you want
+-   Add all fields, not just the ones on the form
+-   [x] Add only fields on the current form - that's by default
 -   Intercept request and get the grid FetchXml
 -   Enter custom FetchXml and have that converted into
+-   Relationships data generator
 
 ### How it works: Generate a C# Entity
 
