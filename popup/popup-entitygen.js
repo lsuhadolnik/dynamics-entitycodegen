@@ -32,7 +32,6 @@ function generateCode(escape) {
     const attributes = entityGenState.attributes;
     const lines = [];
 
-    debugger;
     for (let attribute of attributes) {
         // Skip fields with null or undefined values
         if (attribute.value !== null && attribute.value !== undefined) {
@@ -109,7 +108,6 @@ function generateCode(escape) {
                     });
                     break;
                 case "multiselectoptionset":
-                    debugger;
                     lines.push({
                         fieldName: attribute.name,
                         formattedValue: `new OptionSetValueCollection(

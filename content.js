@@ -1,6 +1,5 @@
-// alert("Hey! Hello from content");
-
 function injectWorker() {
+    console.log("[content] Injecting Worker..");
     const script = document.createElement("script");
     script.src = chrome.runtime.getURL("worker.js");
     (document.head || document.documentElement).appendChild(script);

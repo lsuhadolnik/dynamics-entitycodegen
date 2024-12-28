@@ -22,7 +22,6 @@ chrome.runtime.onMessage.addListener((response) => {
     console.log("[popup-comm] Receiving", response);
     if (response.EntityGeneratorResponse) {
         console.log("[popup-comm] Calling NewDataAvailable", response);
-        debugger;
         newDataAvailable(response);
     }
 });
