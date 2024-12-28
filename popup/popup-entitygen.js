@@ -4,6 +4,7 @@ const entityGenState = {
     entityId: null,
 
     generatedCode: null,
+    generatedCodeToRender: null,
 
     format: "cs",
     onlyNonNull: false,
@@ -12,15 +13,14 @@ const entityGenState = {
 };
 
 function render() {
-    const code = generateCode();
+    entityGenState.generatedCode = generateCode(false);
+    entityGenState.generatedCodeToRender = generateCode(true);
 
-    entityGenState.generatedCode = code;
-
-    setCodeOutput(code);
+    setCodeOutput(entityGenState.generatedCodeToRender);
     setTitle();
 }
 
-function generateCode() {
+function generateCode(escape) {
     // Retrieve entity logical name
     const entityName = entityGenState.entityName;
     const entityId = entityGenState.entityId;
@@ -30,67 +30,147 @@ function generateCode() {
 
     // Loop over attributes on the form
     const attributes = entityGenState.attributes;
-    for (let index = 0; index < attributes.length; index++) {
-        const attribute = attributes[index];
+    const lines = [];
 
-        const fieldName = attribute.name;
-        const fieldValue = attribute.value;
-        const attributeType = attribute.type;
-
+    debugger;
+    for (let attribute of attributes) {
         // Skip fields with null or undefined values
-        if (fieldValue !== null && fieldValue !== undefined) {
-            let formattedValue;
-            let comment = "";
-
+        if (attribute.value !== null && attribute.value !== undefined) {
             // Handle different field types
-            switch (attributeType) {
+            switch (attribute.type) {
                 case "string":
-                    formattedValue = `@"${fieldValue.replace(/"/g, '\\"')}"`; // Escape quotes in strings
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `@"${escapeDoubleQuotes(
+                            attribute.value
+                        )}"`, // Escape quotes in strings
+                    });
                     break;
                 case "boolean":
-                    formattedValue = fieldValue ? "true" : "false";
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: attribute.value ? "true" : "false",
+                    });
+                    break;
+                case "money":
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `new Money(${attribute.value}m)`,
+                    });
+                    break;
+                case "decimal":
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `${attribute.value}m`,
+                    });
                     break;
                 case "integer":
-                case "decimal":
-                case "double":
-                    formattedValue = fieldValue;
+                case "double": // Float
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: attribute.value,
+                    });
                     break;
                 case "lookup":
                     // Handle lookup values
-                    formattedValue = `new EntityReference("${fieldValue[0].entityType}", Guid.Parse("${fieldValue[0].id}"))`;
-                    if (fieldValue[0].name) {
-                        comment = ` // ${fieldValue[0].name}`;
+                    const ob = {
+                        fieldName: attribute.name,
+                        formattedValue: `new EntityReference("${attribute.value[0].entityType}", Guid.Parse("${attribute.value[0].id}"))`,
+                    };
+                    if (attribute.value[0].name) {
+                        ob.comment = ` // ${attribute.value[0].name}`;
                     }
+
+                    lines.push(ob);
                     break;
                 case "optionset":
                     // Handle OptionSet (Choice) values
-                    formattedValue = `new OptionSetValue(${fieldValue})`;
-                    const optionSetText = attribute.text;
-                    comment = ` // ${optionSetText}`;
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `new OptionSetValue(${attribute.value})`,
+                        comment: ` // ${attribute.text}`,
+                    });
+
                     break;
                 case "datetime":
-                    formattedValue = `DateTime.Parse("${new Date(
-                        fieldValue
-                    ).toISOString()}")`;
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `DateTime.Parse("${new Date(
+                            attribute.value
+                        ).toISOString()}")`,
+                    });
                     break;
                 case "memo":
-                    formattedValue = `@"${fieldValue.replace(/"/g, '\\"')}"`;
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `@"${escapeDoubleQuotes(
+                            attribute.value
+                        )}"`,
+                    });
+                    break;
+                case "multiselectoptionset":
+                    debugger;
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `new OptionSetValueCollection(
+        new List<OptionSetValue>() {
+${attribute.value
+    .map(({ value, text }, i) => {
+        const lastLine = i + 1 == attribute.value.length;
+        const comma = lastLine ? "" : ",";
+        return `            new OptionSetValue(${value})${comma} // ${text}`;
+    })
+    .join(",\n")}
+        }
+    )`,
+                    });
+
+                    break;
+                case "file":
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `"${attribute.value.id}"`, // The guid field
+                    });
+                    lines.push({
+                        fieldName: `${attribute.name}_name`,
+                        formattedValue: `"${attribute.value.fileName}"`, // The name field
+                    });
+                    break;
+                case "image":
+                    lines.push({
+                        fieldName: `${attribute.name}_timestamp`,
+                        formattedValue: `"${attribute.value.timestamp}"`, // The timestamp field
+                    });
+                    lines.push({
+                        fieldName: `${attribute.name}id`,
+                        formattedValue: `"${attribute.value.id}"`, // The guid field
+                    });
+                    lines.push({
+                        fieldName: `${attribute.name}_url`,
+                        formattedValue: `"${attribute.value.fileUrl}"`, // The URL field
+                    });
                     break;
                 default:
-                    formattedValue = `"${fieldValue}"`;
+                    lines.push({
+                        fieldName: attribute.name,
+                        formattedValue: `"${escapeDoubleQuotes(
+                            attribute.value
+                        )}"`,
+                    });
+                    break;
             }
-
-            // Add the field initialization to the C# code string with comma before the comment
-            csharpCode += `  ["${fieldName}"] = ${formattedValue},${comment}`;
-
-            // Remove the comma if it's the last field
-            if (index === attributes.length - 1) {
-                csharpCode = csharpCode.trimEnd(",");
-            }
-
-            // Add a newline after each field
-            csharpCode += "\n";
         }
+    }
+
+    for (let lineId = 0; lineId < lines.length; lineId++) {
+        const { fieldName, formattedValue, comment } = lines[lineId];
+        const lastLine = lineId + 1 == lines.length;
+        const comma = lastLine ? "" : ",";
+
+        const value = escape ? escapeHTML(formattedValue) : formattedValue;
+
+        // Add the field initialization to the C# code string with comma before the comment
+        csharpCode += `  ["${fieldName}"] = ${value}${comma}${comment || ""}\n`;
     }
 
     // Close the C# object declaration

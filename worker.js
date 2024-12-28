@@ -24,7 +24,7 @@ window.addEventListener("message", (event) => {
                 for (const attr of rawAttr) {
                     const newAttr = {
                         name: attr.getName(),
-                        value: attr.getValue(),
+                        value: processAttributeValue(attr),
                         type: attr.getAttributeType(),
                     };
 
@@ -43,3 +43,63 @@ window.addEventListener("message", (event) => {
         window.postMessage(response, "*");
     }
 });
+
+function processAttributeValue(attr) {
+    const value = attr.getValue();
+    const type = attr.getAttributeType();
+
+    if (type == "file") {
+        const {
+            fileName,
+            fileSize,
+            fileUrl,
+            mimeType,
+            target: {
+                id: { guid },
+            },
+        } = value;
+        return {
+            fileName,
+            fileSize,
+            fileUrl,
+            mimeType,
+            id: guid,
+        };
+    } else if (type == "image") {
+        // https://xx.crmxx.dynamics.com/Image/download.aspx
+        // ?Entity=ls_iwantitall
+        // &Attribute=ls_23_image
+        // &Id=907291e6-efc1-ef11-b8e8-000d3adbc59e
+        // &Timestamp=638710096255629165
+        // &Full=true
+
+        const {
+            fileName,
+            fileSize,
+            fileUrl,
+            mimeType,
+            target: {
+                id: { guid },
+            },
+        } = value;
+
+        const parsedUrl = new URL(fileUrl);
+
+        return {
+            fileName,
+            fileSize,
+            fileUrl,
+            mimeType,
+            id: parsedUrl.searchParams.get("Id"),
+            timestamp: parsedUrl.searchParams.get("Timestamp"),
+        };
+    } else if (type == "multiselectoptionset") {
+        const texts = attr.getText();
+        return value.map((v, i) => ({
+            value: v,
+            text: texts[i],
+        }));
+    }
+
+    return value;
+}
