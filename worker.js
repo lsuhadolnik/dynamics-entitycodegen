@@ -46,16 +46,31 @@ window.addEventListener("message", (event) => {
             response.url = document.location.href;
         }
 
+        if (requestType == "GetMetadata") {
+            // TODO
+        }
+
+        if (requestType == "GetAllFields") {
+            // TODO
+        }
+
         console.log("[worker] Posting", response);
         window.postMessage(response, "*");
     }
 });
 
+async function getMetadataAndPost() {
+    const baseUrl = window.location.host;
+    const url = `https://${baseUrl}/api/data/v9.2/$metadata`;
+
+    // const response = await
+}
+
 function processAttributeValue(attr) {
     const value = attr.getValue();
     const type = attr.getAttributeType();
 
-    if (type == "file") {
+    if (type == "file" && value) {
         const {
             fileName,
             fileSize,
@@ -72,7 +87,7 @@ function processAttributeValue(attr) {
             mimeType,
             id: guid,
         };
-    } else if (type == "image") {
+    } else if (type == "image" && value) {
         // https://xx.crmxx.dynamics.com/Image/download.aspx
         // ?Entity=ls_iwantitall
         // &Attribute=ls_23_image
