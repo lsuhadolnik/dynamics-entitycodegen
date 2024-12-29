@@ -31,7 +31,9 @@ function generateCode(escape) {
 }
 
 function setCodeOutput(code) {
-    document.getElementById("codeOutput").innerHTML = code;
+    const el = document.getElementById("codeOutput");
+    el.innerHTML = code;
+    delete el.dataset.highlighted;
 
     hljs.highlightAll();
 }

@@ -70,7 +70,7 @@ function processAttributeValue(attr) {
     const value = attr.getValue();
     const type = attr.getAttributeType();
 
-    if (type == "file") {
+    if (type == "file" && value) {
         const {
             fileName,
             fileSize,
@@ -87,7 +87,7 @@ function processAttributeValue(attr) {
             mimeType,
             id: guid,
         };
-    } else if (type == "image") {
+    } else if (type == "image" && value) {
         // https://xx.crmxx.dynamics.com/Image/download.aspx
         // ?Entity=ls_iwantitall
         // &Attribute=ls_23_image

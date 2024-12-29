@@ -6,16 +6,18 @@ function capitalizeFirstLetter(val) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
 
-function escapeHTML(str) {
+function escapeHTML(str, backslashQuote) {
     if (typeof str !== "string") {
         return str;
     }
+
+    const quoteReplace = backslashQuote ? "&#92;&quot;" : "&quot;";
 
     return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
+        .replace(/"/g, quoteReplace)
         .replace(/'/g, "&#39;");
 }
 

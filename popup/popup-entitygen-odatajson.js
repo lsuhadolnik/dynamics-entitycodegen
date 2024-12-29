@@ -12,19 +12,17 @@ function generateCode_ODataJSON(escape) {
                 case "string":
                     lines.push({
                         fieldName: attribute.name,
-                        formattedValue: escapeQuoteBackslash(attribute.value), // Escape quotes in strings
+                        formattedValue: escape
+                            ? escapeQuoteBackslash(attribute.value)
+                            : attribute.value, // Escape quotes in strings
                     });
                     break;
+
                 case "boolean":
-                    lines.push({
-                        fieldName: attribute.name,
-                        formattedValue: attribute.value ? "true" : "false",
-                    });
-                    break;
                 case "money":
                 case "decimal":
                 case "integer":
-                case "double": // That's all just a normal number in OData
+                case "double": // These are all just normal JS types in OData
                     lines.push({
                         fieldName: attribute.name,
                         formattedValue: attribute.value,
@@ -45,9 +43,11 @@ function generateCode_ODataJSON(escape) {
 
                     lines.push({
                         fieldName: `${attribute.name}@OData.Community.Display.V1.FormattedValue`,
-                        formattedValue: `"${escapeQuoteBackslash(
-                            attribute.value[0].name
-                        )}"`,
+                        formattedValue: `${
+                            escape
+                                ? escapeQuoteBackslash(attribute.value[0].name)
+                                : attribute.value[0].name
+                        }`,
                     });
 
                     break;
@@ -71,9 +71,11 @@ function generateCode_ODataJSON(escape) {
                 case "memo":
                     lines.push({
                         fieldName: attribute.name,
-                        formattedValue: `${escapeQuoteBackslash(
-                            attribute.value
-                        )}`,
+                        formattedValue: `${
+                            escape
+                                ? escapeHTML(attribute.value, true)
+                                : attribute.value
+                        }`,
                     });
                     break;
                 case "multiselectoptionset":
@@ -119,9 +121,11 @@ function generateCode_ODataJSON(escape) {
                 default:
                     lines.push({
                         fieldName: attribute.name,
-                        formattedValue: `"${escapeQuoteBackslash(
-                            attribute.value
-                        )}"`,
+                        formattedValue: escape
+                            ? escapeQuoteBackslash(
+                                  escapeHTML(attribute.value, true)
+                              )
+                            : attribute.value,
                     });
                     break;
             }

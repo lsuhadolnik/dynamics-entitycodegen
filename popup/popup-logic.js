@@ -25,8 +25,6 @@ function enableButtons() {
             "click",
             ({ target }) => {
                 const format = target.attributes["data-format"].value;
-
-                alert("Setting " + format);
                 entityGenState.format = format;
                 render();
             },
