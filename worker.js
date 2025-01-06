@@ -47,11 +47,14 @@ window.addEventListener("message", (event) => {
         }
 
         if (requestType == "GetMetadata") {
-            // TODO
+            const host = document.location.host;
+            const url = `https://${host}/api/data/v9.2/$metadata`; // I'm sorry.
+
+            getMetadataAndPost();
+            return;
         }
 
-        if (requestType == "GetAllFields") {
-            // TODO
+        if (requestType == "GetAllFieldsAndPost") {
         }
 
         console.log("[worker] Posting", response);
@@ -63,7 +66,86 @@ async function getMetadataAndPost() {
     const baseUrl = window.location.host;
     const url = `https://${baseUrl}/api/data/v9.2/$metadata`;
 
+    const fatCow = await fetch(url);
+    const text = await fatCow.text();
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(text, "application/xml");
+
+    const metadata = xmlToJson(xmlDoc);
+
+    const response = {
+        EntityGeneratorResponse: true,
+        type: "GetMetadata",
+        metadata,
+    };
+
+    window.postMessage(response, "*");
     // const response = await
+}
+
+async function getMetadataAndPost() {
+    const baseUrl = window.location.host;
+    const url = `https://${baseUrl}/api/data/v9.2/$metadata`;
+
+    const fatCow = await fetch(url);
+    const text = await fatCow.text();
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(text, "application/xml");
+
+    const metadata = xmlToJson(xmlDoc);
+
+    const response = {
+        EntityGeneratorResponse: true,
+        type: "GetMetadata",
+        metadata,
+    };
+
+    window.postMessage(response, "*");
+    // const response = await
+}
+
+function xmlToJson(xml) {
+    // Create the return object
+    let obj = {};
+
+    // If the node has attributes, add them to the object
+    if (xml.nodeType === 1) {
+        // Process attributes
+        if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (let i = 0; i < xml.attributes.length; i++) {
+                const attribute = xml.attributes.item(i);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+        }
+    } else if (xml.nodeType === 3) {
+        // Text node
+        obj = xml.nodeValue;
+    }
+
+    // Recurse for each child node
+    if (xml.hasChildNodes()) {
+        for (let i = 0; i < xml.childNodes.length; i++) {
+            const item = xml.childNodes.item(i);
+            const nodeName = item.nodeName;
+
+            if (typeof obj[nodeName] === "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (
+                    typeof obj[nodeName] === "object" &&
+                    !Array.isArray(obj[nodeName])
+                ) {
+                    obj[nodeName] = [obj[nodeName]];
+                }
+                obj[nodeName].push(xmlToJson(item));
+            }
+        }
+    }
+
+    return obj;
 }
 
 function processAttributeValue(attr) {
