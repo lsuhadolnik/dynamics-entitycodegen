@@ -6,6 +6,9 @@ const entityGenState = {
     generatedCode: null,
     generatedCodeToRender: null,
 
+    entitySetMappings: {},
+    entitySetMappingsLastRefreshed: null,
+
     format: "cs",
     onlyNonNull: false,
     hasAllFields: false,

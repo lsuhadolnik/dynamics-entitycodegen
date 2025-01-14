@@ -24,6 +24,30 @@ body {
     width: 400px;
 }
 
+.disabledText {
+    color: #b1b1b1;
+}
+
+.spinner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top-color: #000000;
+    border-left-color: black;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%);
+}
+
+@keyframes spin {
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
 .topSection {
     width: 100%;
     display: flex;
@@ -45,6 +69,8 @@ h3 {
 }
 
 .btn {
+    position: relative;
+
     background-color: #f0f3f5;
     color: #231f32;
     border: none;

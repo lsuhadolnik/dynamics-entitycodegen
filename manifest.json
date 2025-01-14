@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Dynamics CRM Entity Generator",
     "version": "1.0",
-    "permissions": ["scripting", "tabs", "clipboardWrite"],
+    "permissions": ["scripting", "tabs", "clipboardWrite", "storage"],
     "host_permissions": ["*://*.dynamics.com/*"],
     "action": {
         "default_popup": "/popup/popup.html",

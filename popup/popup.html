@@ -23,8 +23,13 @@
 
             <div class="buttons">
                 <button class="btn setFormatBtn" data-format="cs">C#</button>
-                <button class="btn setFormatBtn" data-format="odatajson">
-                    JSON (OData)
+                <button
+                    class="btn setFormatBtn"
+                    data-format="odatajson"
+                    id="json-loading-btn"
+                >
+                    <span class="spinnerText disabledText">JSON (OData) </span>
+                    <span class="spinner"></span>
                 </button>
             </div>
 
@@ -59,6 +64,7 @@
         <script src="highlight/highlight.min.js"></script>
 
         <script src="popup-logging.js"></script>
+        <script src="popup-metadata.js"></script>
         <script src="popup-entitygen-odatajson.js"></script>
         <script src="popup-entitygen-cs.js"></script>
         <script src="popup-button-charms.js"></script>

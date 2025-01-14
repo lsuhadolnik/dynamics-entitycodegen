@@ -6,6 +6,22 @@ function capitalizeFirstLetter(val) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
 
+function refreshJsonButton() {
+    const jsonBtn = document.getElementById("json-loading-btn");
+    const text = jsonBtn.querySelector(".spinnerText");
+    const spinner = jsonBtn.querySelector(".spinner");
+
+    if (entityGenState.entitySetMappings) {
+        spinner.hidden = true;
+        text.classList.remove("disabledText");
+        jsonBtn.disabled = false;
+    } else {
+        spinner.hidden = false;
+        text.classList.add("disabledText");
+        jsonBtn.disabled = true;
+    }
+}
+
 function escapeHTML(str, backslashQuote) {
     if (typeof str !== "string") {
         return str;

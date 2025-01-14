@@ -17,6 +17,7 @@ window.addEventListener("message", (event) => {
             response.url = document.location.href;
 
             try {
+                response.origin = document.location.host; // Dynamics URL
                 response.entityName = Xrm.Page.data.entity.getEntityName();
                 response.entityId = Xrm.Page.data.entity.getId();
 
@@ -47,11 +48,14 @@ window.addEventListener("message", (event) => {
         }
 
         if (requestType == "GetMetadata") {
-            // TODO
+            const host = document.location.host;
+            const url = `https://${host}/api/data/v9.2/$metadata`; // I'm sorry.
+
+            getMetadataAndPost();
+            return;
         }
 
-        if (requestType == "GetAllFields") {
-            // TODO
+        if (requestType == "GetAllFieldsAndPost") {
         }
 
         console.log("[worker] Posting", response);
@@ -63,7 +67,81 @@ async function getMetadataAndPost() {
     const baseUrl = window.location.host;
     const url = `https://${baseUrl}/api/data/v9.2/$metadata`;
 
-    // const response = await
+    const fatCow = await fetch(url);
+    const text = await fatCow.text();
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(text, "application/xml");
+
+    const metadata = xmlToJson(xmlDoc);
+
+    const entitySetMappings = extractEntitySetMappings(metadata);
+
+    const response = {
+        EntityGeneratorResponse: true,
+        type: "GetMetadata",
+        // metadata, -> No need for the whole metadata
+        metadata: {
+            entitySetMappings,
+            lastRefreshed: new Date(),
+        },
+        origin: baseUrl,
+    };
+
+    window.postMessage(response, "*");
+}
+
+function extractEntitySetMappings(metadata) {
+    return Object.fromEntries(
+        metadata["edmx:Edmx"][
+            "edmx:DataServices"
+        ].Schema.EntityContainer.EntitySet.map((s) => [
+            s["@attributes"].EntityType.replace("Microsoft.Dynamics.CRM.", ""),
+            s["@attributes"].Name,
+        ])
+    );
+}
+
+function xmlToJson(xml) {
+    // Create the return object
+    let obj = {};
+
+    // If the node has attributes, add them to the object
+    if (xml.nodeType === 1) {
+        // Process attributes
+        if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (let i = 0; i < xml.attributes.length; i++) {
+                const attribute = xml.attributes.item(i);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+        }
+    } else if (xml.nodeType === 3) {
+        // Text node
+        obj = xml.nodeValue;
+    }
+
+    // Recurse for each child node
+    if (xml.hasChildNodes()) {
+        for (let i = 0; i < xml.childNodes.length; i++) {
+            const item = xml.childNodes.item(i);
+            const nodeName = item.nodeName;
+
+            if (typeof obj[nodeName] === "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (
+                    typeof obj[nodeName] === "object" &&
+                    !Array.isArray(obj[nodeName])
+                ) {
+                    obj[nodeName] = [obj[nodeName]];
+                }
+                obj[nodeName].push(xmlToJson(item));
+            }
+        }
+    }
+
+    return obj;
 }
 
 function processAttributeValue(attr) {
