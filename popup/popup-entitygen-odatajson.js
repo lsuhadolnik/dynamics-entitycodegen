@@ -31,8 +31,10 @@ function generateCode_ODataJSON(escape) {
                 case "lookup":
                     // Handle lookup values
 
-                    // BAD IDEA, FIX USING METADATA
-                    const entityset = attribute.value[0].entityType + "s";
+                    const entityset =
+                        entityGenState.entitySetMappings[
+                            attribute.value[0].entityType
+                        ] || "???";
 
                     lines.push({
                         fieldName: `${attribute.name}@odata.bind`,

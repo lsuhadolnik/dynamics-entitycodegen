@@ -17,6 +17,7 @@ window.addEventListener("message", (event) => {
             response.url = document.location.href;
 
             try {
+                response.origin = document.location.host; // Dynamics URL
                 response.entityName = Xrm.Page.data.entity.getEntityName();
                 response.entityId = Xrm.Page.data.entity.getId();
 
@@ -74,36 +75,31 @@ async function getMetadataAndPost() {
 
     const metadata = xmlToJson(xmlDoc);
 
+    const entitySetMappings = extractEntitySetMappings(metadata);
+
     const response = {
         EntityGeneratorResponse: true,
         type: "GetMetadata",
-        metadata,
+        // metadata, -> No need for the whole metadata
+        metadata: {
+            entitySetMappings,
+            lastRefreshed: new Date(),
+        },
+        origin: baseUrl,
     };
 
     window.postMessage(response, "*");
-    // const response = await
 }
 
-async function getMetadataAndPost() {
-    const baseUrl = window.location.host;
-    const url = `https://${baseUrl}/api/data/v9.2/$metadata`;
-
-    const fatCow = await fetch(url);
-    const text = await fatCow.text();
-
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(text, "application/xml");
-
-    const metadata = xmlToJson(xmlDoc);
-
-    const response = {
-        EntityGeneratorResponse: true,
-        type: "GetMetadata",
-        metadata,
-    };
-
-    window.postMessage(response, "*");
-    // const response = await
+function extractEntitySetMappings(metadata) {
+    return Object.fromEntries(
+        metadata["edmx:Edmx"][
+            "edmx:DataServices"
+        ].Schema.EntityContainer.EntitySet.map((s) => [
+            s["@attributes"].EntityType.replace("Microsoft.Dynamics.CRM.", ""),
+            s["@attributes"].Name,
+        ])
+    );
 }
 
 function xmlToJson(xml) {

@@ -24,7 +24,10 @@ function enableButtons() {
         btn.addEventListener(
             "click",
             ({ target }) => {
-                const format = target.attributes["data-format"].value;
+                debugger;
+                const format = target.attributes["data-format"]
+                    ? target.attributes["data-format"].value
+                    : target.parentElement.attributes["data-format"].value;
                 entityGenState.format = format;
                 render();
             },
@@ -33,10 +36,30 @@ function enableButtons() {
     });
 }
 
+async function checkMetadata(origin) {
+    // CHECK METADATA
+    let metadata = await EntityMetadataCache.getMetadata(origin);
+    if (!metadata) {
+        // Get new data and cache
+        workerRequest("GetMetadata");
+    } else {
+        console.log("Metadata - ", metadata);
+        // Cached Data
+        setEntitygenMetadata(metadata);
+    }
+}
+
+function setEntitygenMetadata(metadata) {
+    entityGenState.entitySetMappings = metadata.entitySetMappings;
+    entityGenState.entitySetMappingsLastRefreshed = metadata.lastRefreshed;
+
+    refreshJsonButton();
+}
+
 function newDataAvailable(response) {
     logPopup("New Data Available", response);
     if (response.type === "GetBasicAttributes") {
-        const { entityName, entityId, attributes, params } = response;
+        const { entityName, entityId, attributes, params, origin } = response;
 
         if (!isValidPage(params)) {
             return;
@@ -50,9 +73,17 @@ function newDataAvailable(response) {
 
         enableButtons();
         hideWelcome();
+
+        checkMetadata(origin);
     }
 
-    /*if (response.type == "GetPageURL") {
-        
-    }*/
+    if (response.type === "GetMetadata") {
+        const metadataResponse = response;
+        debugger;
+        EntityMetadataCache.setMetadata(
+            metadataResponse.origin, // Dynamics URL - xxx.crmXX.dynamics.com
+            metadataResponse.metadata
+        );
+        setEntitygenMetadata(metadataResponse.metadata);
+    }
 }
